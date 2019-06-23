@@ -1,4 +1,5 @@
 HELP.md
+#ingore files in path target/
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**
