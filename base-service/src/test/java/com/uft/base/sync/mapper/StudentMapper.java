@@ -11,10 +11,10 @@ import org.springframework.stereotype.Component;
  * @Description:
  * @Resource:
  */
-@Component
-@Mapper
+//@Component
+//@Mapper
 public interface StudentMapper {
 
-    @Insert("INSERT INTO student (name, sex, addr) VALUES (#{name}, #{sex}, #{addr})")
+//    @Insert("INSERT INTO student (name, sex, addr) VALUES (#{name}, #{sex}, #{addr})")
     int insert(Student student);
 }
