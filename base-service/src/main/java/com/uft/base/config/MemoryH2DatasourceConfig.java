@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import javax.sql.DataSource;
 
@@ -28,10 +29,22 @@ public class MemoryH2DatasourceConfig {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Bean(name = "h2Datasource")
+    @Bean
     @ConfigurationProperties(prefix = "h2db.datasource")
-    public DataSource dataSource() {
-        return DataSourceBuilder.create().build();
+    public MemoryH2Config memoryH2Config(){
+        MemoryH2Config memoryH2Config = new MemoryH2Config();
+        return memoryH2Config;
+    }
+
+    @Bean(name = "h2Datasource")
+    public DataSource dataSource(MemoryH2Config memoryH2Config) {
+        return DataSourceBuilder.create()
+                .type(memoryH2Config.getType())
+                .driverClassName(memoryH2Config.getDriver_class_name())
+                .password(memoryH2Config.getPassword())
+                .username(memoryH2Config.getUsername())
+                .url(memoryH2Config.getUrl())
+                .build();
     }
 
     @Bean(name = "h2SqlSessionFactory")
@@ -55,6 +68,11 @@ public class MemoryH2DatasourceConfig {
     public SqlSessionTemplate sqlSessionTemplate(@Qualifier("h2SqlSessionFactory") SqlSessionFactory sqlSessionFactory) throws Exception {
         SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(sqlSessionFactory);
         return sqlSessionTemplate;
+    }
+
+    @Bean(name="h2TransactionManager")
+    public DataSourceTransactionManager dataSourceTransactionManager(@Qualifier("h2Datasource")DataSource dataSource) throws Exception{
+        return new DataSourceTransactionManager(dataSource);
     }
 
 }

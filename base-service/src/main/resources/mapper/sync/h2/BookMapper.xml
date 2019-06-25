@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.uft.base.sync.h2.dao.BookDao">
+    <resultMap id="BookResultMap" type="com.uft.base.sync.h2.model.Book">
+        <result column="bookId" property="bookId" jdbcType="VARCHAR"/>
+        <result column="bookName" property="bookName" jdbcType="VARCHAR"/>
+        <result column="price" property="price" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="queryConditionBooks" parameterType="com.uft.base.sync.h2.model.Book" resultMap="BookResultMap">
+        select bookId,bookName,price from book
+        <where>
+            <if test="bookId != null and !&quot;&quot;.equals(bookId)">
+                bookId = #{bookId}
+            </if>
+            <if test="bookName != null and !&quot;&quot;.equals(bookName)">
+                bookName = #{bookName}
+            </if>
+            <if test="price != null and !&quot;&quot;.equals(price)">
+                price = #{price}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertBook" parameterType="com.uft.base.sync.h2.model.Book">
+        insert into book (bookid,bookname,price) values (#{bookId},#{bookName},#{price})
+    </insert>
+</mapper>

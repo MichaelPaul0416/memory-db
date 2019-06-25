@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import javax.sql.DataSource;
 
@@ -26,7 +27,7 @@ import javax.sql.DataSource;
  * @Resource:
  */
 @Configuration
-@MapperScan(basePackages = "{com.uft.base.sync.oracle.dao}", sqlSessionTemplateRef = "oracleSqlSessionTemplate")
+@MapperScan(basePackages = "com.uft.base.sync.oracle.dao", sqlSessionTemplateRef = "oracleSqlSessionTemplate")
 public class SyncOracleDatasourceConfig {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -71,5 +72,10 @@ public class SyncOracleDatasourceConfig {
     public SqlSessionTemplate sqlSessionTemplate(@Qualifier("oracleSqlSessionFactory") SqlSessionFactory sqlSessionFactory) throws Exception {
         SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(sqlSessionFactory);
         return sqlSessionTemplate;
+    }
+
+    @Bean(name="oracleTransactionManager")
+    public DataSourceTransactionManager transactionManager(@Qualifier("oracleDatasource")DataSource dataSource) throws Exception{
+        return new DataSourceTransactionManager(dataSource);
     }
 }
