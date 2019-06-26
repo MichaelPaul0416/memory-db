@@ -11,5 +11,19 @@
 
     <artifactId>app-calculator</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.alibaba.boot</groupId>
+            <artifactId>dubbo-spring-boot-starter</artifactId>
+            <version>0.2.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.uft.mem.db</groupId>
+            <artifactId>mem-facade</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
 
 </project>

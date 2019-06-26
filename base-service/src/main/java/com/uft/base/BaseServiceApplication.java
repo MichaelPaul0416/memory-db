@@ -2,6 +2,7 @@ package com.uft.base;
 
 //import com.uft.base.sync.h2.dao.BookDao;
 //import com.uft.base.sync.h2.model.Book;
+import com.alibaba.dubbo.config.spring.context.annotation.EnableDubbo;
 import com.uft.base.sync.h2.dao.BookDao;
 import com.uft.base.sync.h2.model.Book;
 import com.uft.base.sync.oracle.dao.SeatsDao;
@@ -23,6 +24,7 @@ import java.util.List;
  */
 @SpringBootApplication
 @EnableAutoConfiguration
+@EnableDubbo(scanBasePackages = "com.uft.base.service")
 public class BaseServiceApplication {
 
     private static Logger logger = LoggerFactory.getLogger(BaseServiceApplication.class);
@@ -31,15 +33,15 @@ public class BaseServiceApplication {
         ApplicationContext applicationContext  = SpringApplication.run(BaseServiceApplication.class,args);
 
 //        showAllBean(applicationContext);
-        SeatsDao seatsDao = applicationContext.getBean(SeatsDao.class);
-        Seats seats = new Seats();
-        seats.setBranchNo("20190625");
-        List<Seats> list = seatsDao.queryConditionSeats(seats);
-        System.out.println(list);
-
-        BookDao bookDao = applicationContext.getBean(BookDao.class);
-        List<Book> books = bookDao.queryConditionBooks(new Book());
-        logger.info("books:{}",books);
+//        SeatsDao seatsDao = applicationContext.getBean(SeatsDao.class);
+//        Seats seats = new Seats();
+//        seats.setBranchNo("20190625");
+//        List<Seats> list = seatsDao.queryConditionSeats(seats);
+//        System.out.println(list);
+//
+//        BookDao bookDao = applicationContext.getBean(BookDao.class);
+//        List<Book> books = bookDao.queryConditionBooks(new Book());
+//        logger.info("books:{}",books);
     }
 
     private static void showAllBean(ApplicationContext applicationContext){
