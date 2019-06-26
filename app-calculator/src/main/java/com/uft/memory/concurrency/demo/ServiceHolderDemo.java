@@ -1,6 +1,7 @@
 package com.uft.memory.concurrency.demo;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.uft.facade.TransferData;
 import com.uft.facade.demo.rpc.DemoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +22,7 @@ public class ServiceHolderDemo {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     public void showService(){
-        String response = demoService.display("hello");
+        TransferData response = demoService.display("hello");
         logger.info("rpc service:{}",response);
     }
 }

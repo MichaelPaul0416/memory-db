@@ -1,5 +1,7 @@
 package com.uft.facade.demo.rpc;
 
+import com.uft.facade.TransferData;
+
 /**
  * @Author: wangqiang20995
  * @Date:2019/6/26
@@ -8,5 +10,5 @@ package com.uft.facade.demo.rpc;
  */
 public interface DemoService {
 
-    String display(String info);
+    TransferData display(String info);
 }
