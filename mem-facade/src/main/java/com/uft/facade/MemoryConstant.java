@@ -15,4 +15,12 @@ public class MemoryConstant {
     public static final String MODULE_ACCOUNT = "account";
 
     public static final String MODULE_ORDER = "order";
+
+    public static final String RABBITMQ_QUEUE_PREFIX = "_queue_";
+
+    public static final String RABBITMQ_ROUTING_PREFIX = "_routing_";
+
+    public static final String RABBIT_BINDING_PREFIX = "_binding_";
+
+    public static final String PROJECT_CONFIG = "application.properties";
 }

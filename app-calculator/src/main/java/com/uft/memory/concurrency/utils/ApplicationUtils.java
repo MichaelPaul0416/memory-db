@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -15,6 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @Description:
  * @Resource:
  */
+@Component
 public class ApplicationUtils implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
@@ -49,5 +51,18 @@ public class ApplicationUtils implements ApplicationContextAware {
         }
 
         return beans;
+    }
+
+    public String[] getBeanNamesByType(Class clazz){
+        if(this.applicationContext == null){
+            logger.error("application empty...");
+            throw new NullPointerException("empty spring application context");
+        }
+
+        return this.applicationContext.getBeanNamesForType(clazz);
+    }
+
+    public <T> T getBean(String name){
+        return (T) this.applicationContext.getBean(name);
     }
 }

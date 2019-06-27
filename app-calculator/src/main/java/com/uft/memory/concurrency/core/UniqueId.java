@@ -19,6 +19,14 @@ public class UniqueId implements Serializable {
 
     private int distributeId;//同一个模块下，节点Id
 
+    public UniqueId(){}
+
+    public UniqueId(String globalSerial,String module,int distributeId){
+        this.globalSerial = globalSerial;
+        this.module = module;
+        this.distributeId = distributeId;
+    }
+
     @Override
     public String toString() {
         return "UniqueId{" +

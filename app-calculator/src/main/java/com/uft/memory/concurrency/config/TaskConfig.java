@@ -31,6 +31,16 @@ public class TaskConfig {
     private String poolMaxSize;
     private String poolPreName;
 
+    private String enableAsynWrite;
+
+    public String getEnableAsynWrite() {
+        return enableAsynWrite;
+    }
+
+    public void setEnableAsynWrite(String enableAsynWrite) {
+        this.enableAsynWrite = enableAsynWrite;
+    }
+
     public String getPoolCore() {
         return poolCore;
     }

@@ -1,6 +1,9 @@
 package com.uft.memory.concurrency.core;
 
 import com.uft.facade.PageData;
+import com.uft.memory.concurrency.core.data.AbstractData;
+
+import java.util.List;
 
 /**
  * @Author: wangqiang20995
@@ -10,7 +13,7 @@ import com.uft.facade.PageData;
  */
 public interface DataProcessor {
 
-    void doProcess(ProcessorContext context, PageData pageData);
+    List<AbstractData> doProcess(ProcessorContext context, PageData pageData, RabbitObject rabbitObject);
 
     String dealModule();
 }
