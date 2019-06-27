@@ -13,7 +13,6 @@ import org.springframework.amqp.core.Queue;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * @Author: wangqiang20995

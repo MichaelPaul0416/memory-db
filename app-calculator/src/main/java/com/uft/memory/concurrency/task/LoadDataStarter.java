@@ -11,7 +11,7 @@ import com.uft.memory.concurrency.utils.ApplicationUtils;
 import com.uft.memory.concurrency.utils.CommonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.rabbit.core.RabbitMessagingTemplate;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -44,7 +44,7 @@ public class LoadDataStarter {
     private TaskListenerRegistry listenerRegistry;
 
     @Autowired
-    private RabbitMessagingTemplate messagingTemplate;
+    private RabbitTemplate rabbitTemplate;
 
 
     public void startLoad() {
@@ -128,7 +128,8 @@ public class LoadDataStarter {
                 @Override
                 public void run() {
                     RabbitObject rabbitObject = new RabbitObject();
-                    rabbitObject.setBatch(finalI % 3 == 0 ? finalI / 3 : finalI / 3 + 1);
+                    rabbitObject.setBatch(finalI % MemoryConstant.QUEUE_WITH_PROCESSORS == 0 ?
+                            finalI / MemoryConstant.QUEUE_WITH_PROCESSORS : finalI / MemoryConstant.QUEUE_WITH_PROCESSORS + 1);
                     processor.doProcess(context, pageData, rabbitObject);
                 }
             });

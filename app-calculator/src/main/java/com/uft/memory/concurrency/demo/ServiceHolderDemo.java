@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ServiceHolderDemo {
 
-    @Reference
+//    @Reference
     private DemoService demoService;
 
     private Logger logger = LoggerFactory.getLogger(getClass());

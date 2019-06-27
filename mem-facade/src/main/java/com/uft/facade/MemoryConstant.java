@@ -23,4 +23,10 @@ public class MemoryConstant {
     public static final String RABBIT_BINDING_PREFIX = "_binding_";
 
     public static final String PROJECT_CONFIG = "application.properties";
+
+    public static final int QUEUE_WITH_PROCESSORS = 5;
+
+    public static final int SINGLE_MODULE_CONCURRENT = Runtime.getRuntime().availableProcessors() << 1;
+
+    public static final int MAX_QUEUE_NUMBER = 4;
 }
