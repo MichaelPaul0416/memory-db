@@ -29,4 +29,6 @@ public class MemoryConstant {
     public static final int SINGLE_MODULE_CONCURRENT = Runtime.getRuntime().availableProcessors() << 1;
 
     public static final int MAX_QUEUE_NUMBER = 4;
+
+    public static final String STRING_TRUE = "true";
 }

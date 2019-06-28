@@ -43,9 +43,6 @@ public class LoadDataStarter {
     @Autowired
     private TaskListenerRegistry listenerRegistry;
 
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
-
 
     public void startLoad() {
         //读取配置文件中需要进行数据同步的模块
@@ -113,8 +110,8 @@ public class LoadDataStarter {
                         continue;
                     }
 
-                    ProcessorContext.registerProcessor(module, number, processor);
-                    asynStartModuleProcessor(context, number, processor);
+                    DataProcessor dataProcessor = ProcessorContext.registerProcessor(module, number, processor);
+                    asynStartModuleProcessor(context, number, dataProcessor);
                 }
             }
         }
@@ -128,8 +125,10 @@ public class LoadDataStarter {
                 @Override
                 public void run() {
                     RabbitObject rabbitObject = new RabbitObject();
-                    rabbitObject.setBatch(finalI % MemoryConstant.QUEUE_WITH_PROCESSORS == 0 ?
-                            finalI / MemoryConstant.QUEUE_WITH_PROCESSORS : finalI / MemoryConstant.QUEUE_WITH_PROCESSORS + 1);
+//                    rabbitObject.setBatch(finalI % MemoryConstant.QUEUE_WITH_PROCESSORS == 0 ?
+//                            finalI / MemoryConstant.QUEUE_WITH_PROCESSORS : finalI / MemoryConstant.QUEUE_WITH_PROCESSORS + 1);
+                    //所有的dataProcessor都向这几个queue注册数据
+                    rabbitObject.setBatch(finalI % MemoryConstant.MAX_QUEUE_NUMBER);
                     processor.doProcess(context, pageData, rabbitObject);
                 }
             });

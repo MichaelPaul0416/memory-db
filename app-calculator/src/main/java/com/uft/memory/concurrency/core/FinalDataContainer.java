@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @Author: wangqiang20995
@@ -26,25 +28,54 @@ public class FinalDataContainer {
 
     private static final Map<String,Map<UniqueId,AbstractData>> relation = new ConcurrentHashMap<>(3);
 
+    private static final Map<UniqueId,Boolean> writeNodeForModule = new ConcurrentHashMap<>();
+
+    private static final ReentrantLock lock = new ReentrantLock();
+
     static {
         relation.put(MemoryConstant.MODULE_TRADE,tradeFinalData);
         relation.put(MemoryConstant.MODULE_ACCOUNT,accountFinalData);
         relation.put(MemoryConstant.MODULE_ORDER,orderFinalData);
     }
 
-    public static void putModuleData(UniqueId uniqueId,AbstractData data){
+    //执行该方法的一般是DataProcessor线程
+    public static boolean putModuleData(UniqueId uniqueId,AbstractData data){
         String module = uniqueId.getModule();
-        relation.get(module).put(uniqueId,data);
+        try{
+//            lock.lockInterruptibly();
+            lock.lock();
+            relation.get(module).put(uniqueId,data);
+            writeNodeForModule.put(uniqueId,true);
+
+            return true;
+        }
+//        catch (InterruptedException e){
+//            logger.error("等待获取可重入锁时发生中断异常,请重新操作",e.getMessage());
+//            return false;
+//        }
+        finally {
+            lock.unlock();
+        }
     }
     public static <T extends AbstractData> T getModuleData(UniqueId uniqueId){
         String module = uniqueId.getModule();
         return (T) relation.get(module).get(uniqueId);
     }
 
+    //执行这个方法的只有一个线程，就是异步写入数据到文件的线程
     public static <T extends AbstractData> T getAndRemoveModuleData(UniqueId uniqueId){
         String module = uniqueId.getModule();
+        try{
+            lock.lock();
+            AbstractData abstractData = relation.get(module).remove(uniqueId);
+            writeNodeForModule.remove(uniqueId);
+            return (T) abstractData;
+        }finally {
+            lock.unlock();
+        }
+    }
 
-        AbstractData abstractData = relation.get(module).remove(uniqueId);
-        return (T) abstractData;
+    public static Map<UniqueId,Boolean> currentAllDataKeys(){
+        return writeNodeForModule;
     }
 }

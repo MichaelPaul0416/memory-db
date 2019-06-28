@@ -38,7 +38,7 @@ public class RabbitListenerConfig implements RabbitListenerConfigurer {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
         factory.setConcurrentConsumers(10);
         factory.setConnectionFactory(connectionFactory);
-        factory.setAcknowledgeMode(AcknowledgeMode.AUTO);
+        factory.setAcknowledgeMode(AcknowledgeMode.MANUAL);
 
         return factory;
     }

@@ -25,6 +25,13 @@ public class LoadDataStarterTest {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
+    @Test
+    public void startLoad(){
+        loadDataStarter.startLoad();
+        while (true){
+
+        }
+    }
 
     @Test
     public void sendMessage() {

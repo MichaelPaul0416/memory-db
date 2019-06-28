@@ -1,5 +1,7 @@
 package com.uft.memory.concurrency.listener;
 
+import com.uft.memory.concurrency.core.FinalDataContainer;
+import com.uft.memory.concurrency.core.UniqueId;
 import com.uft.memory.concurrency.core.listen.ActionEvents;
 import com.uft.memory.concurrency.core.listen.ListenEvent;
 import com.uft.memory.concurrency.core.listen.TaskListener;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: wangqiang20995
@@ -25,6 +28,13 @@ public class AsynWriteDataListener implements TaskListener<AsynWriteFile> {
     @Override
     public void adviceEvent(ListenEvent listenEvent) {
         logger.info("异步写入数据监听器[{}]开始获取并写入完整数据",this.getClass().getName());
+
+        //从FinalDataContainer中不断拉取数据，通过UniqueId校验数据完整性，完整的数据进行组装并且最终写入到文件中
+
+        //写的节点，操作的module必然不是通过mq存储的，所以以这个里面的uniqueId为准
+        Map<UniqueId,Boolean> currentUniqueIds = FinalDataContainer.currentAllDataKeys();
+
+
     }
 
     @Override
