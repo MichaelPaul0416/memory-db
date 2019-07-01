@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.uft.base.sync.h2.dao.BookDao">
-    <resultMap id="BookResultMap" type="com.uft.base.sync.h2.model.Book">
+<mapper namespace="com.paul.base.sync.h2.dao.BookDao">
+    <resultMap id="BookResultMap" type="com.paul.base.sync.h2.model.Book">
         <result column="bookId" property="bookId" jdbcType="VARCHAR"/>
         <result column="bookName" property="bookName" jdbcType="VARCHAR"/>
         <result column="price" property="price" jdbcType="VARCHAR"/>
     </resultMap>
 
-    <select id="queryConditionBooks" parameterType="com.uft.base.sync.h2.model.Book" resultMap="BookResultMap">
+    <select id="queryConditionBooks" parameterType="com.paul.base.sync.h2.model.Book" resultMap="BookResultMap">
         select bookId,bookName,price from book
         <where>
             <if test="bookId != null and !&quot;&quot;.equals(bookId)">
@@ -23,7 +23,7 @@
         </where>
     </select>
 
-    <insert id="insertBook" parameterType="com.uft.base.sync.h2.model.Book">
+    <insert id="insertBook" parameterType="com.paul.base.sync.h2.model.Book">
         insert into book (bookid,bookname,price) values (#{bookId},#{bookName},#{price})
     </insert>
 </mapper>

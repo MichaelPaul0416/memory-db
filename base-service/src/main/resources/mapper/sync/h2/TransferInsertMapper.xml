@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.paul.base.sync.h2.dao.TransferDataInsertDao">
+    <resultMap id="BookResultMap" type="com.paul.base.sync.h2.model.Book">
+        <result column="bookId" property="bookId" jdbcType="VARCHAR"/>
+        <result column="bookName" property="bookName" jdbcType="VARCHAR"/>
+        <result column="price" property="price" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+
+    <insert id="insertTransferBatchData" parameterType="com.paul.base.sync.h2.model.TransferIntoDataWrapper">
+        insert into ${tableName} values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.opEntrustWay},#{item.reportTime},#{item.fareKind},#{item.entrustType},#{item.entrustNo},#{item.roomCode},#{item.fundAccount},
+            #{item.stockAccount},#{item.entrustProp},#{item.orderId},#{item.entrustBs},#{item.reportAccount},#{item.exchangeType},#{item.fareKindStr},
+            #{item.discountModel},#{item.branchNo})
+        </foreach>
+    </insert>
+</mapper>

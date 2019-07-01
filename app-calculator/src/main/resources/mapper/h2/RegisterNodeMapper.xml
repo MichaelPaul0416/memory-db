@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.paul.memory.concurrency.dao.h2.RegisterNodeDao">
+
+    <resultMap id="registerNodeMap" type="com.paul.memory.concurrency.dao.h2.bean.NodeInfo">
+        <result column="nodeid" property="nodeId" jdbcType="VARCHAR"/>
+        <result column="nodename" property="nodeName" jdbcType="VARCHAR"/>
+        <result column="tablename" property="tableName" jdbcType="VARCHAR"/>
+        <result column="processors" property="processors" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <select id="truncateRegistry" >
+        truncate table registernode
+    </select>
+
+    <insert id="insertCurrentNode" parameterType="com.paul.memory.concurrency.dao.h2.bean.NodeInfo">
+        insert into registernode values(#{nodeId},#{nodeName},#{tableName},#{processors})
+    </insert>
+
+    <select id="timedAllNodesBatch" resultMap="registerNodeMap">
+        select nodeId,nodename,tablename from registernode
+    </select>
+</mapper>
